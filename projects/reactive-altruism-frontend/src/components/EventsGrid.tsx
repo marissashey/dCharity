@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useWallet } from '@txnlab/use-wallet-react'
 import { useSnackbar } from 'notistack'
 import { useAppClient } from '../context/AppClientContext'
@@ -8,6 +9,7 @@ import { EventStruct } from '../contracts/ResponsiveDonation'
 import { ellipseAddress } from '../utils/ellipseAddress'
 
 export default function EventsGrid() {
+  const navigate = useNavigate()
   const { activeAddress } = useWallet()
   const { enqueueSnackbar } = useSnackbar()
   const { appClient } = useAppClient()
@@ -131,6 +133,12 @@ export default function EventsGrid() {
                   <span className="text-sm text-gray-500">Event ID: {eventId.toString()}</span>
                   {getStatusBadge(event)}
                 </div>
+                <button
+                  className="mb-2 px-3 py-1 text-sm bg-gray-900 text-white rounded hover:bg-gray-700 transition-colors"
+                  onClick={() => navigate(`/event/${eventId.toString()}`)}
+                >
+                  View Details
+                </button>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">{event.eventString}</h3>
               </div>
 

@@ -1,6 +1,8 @@
 import { SupportedWallet, WalletId, WalletManager, WalletProvider } from '@txnlab/use-wallet-react'
 import { SnackbarProvider } from 'notistack'
 import Home from './Home'
+import EventDetailPage from './pages/EventDetailPage'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/getAlgorandConfigs'
 import { AppClientProvider } from './context/AppClientContext'
 
@@ -53,7 +55,12 @@ export default function App() {
     <SnackbarProvider maxSnack={3}>
       <WalletProvider manager={walletManager}>
         <AppClientProvider>
-          <Home />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/event/:eventId" element={<EventDetailPage />} />
+            </Routes>
+          </BrowserRouter>
         </AppClientProvider>
       </WalletProvider>
     </SnackbarProvider>
