@@ -3,150 +3,179 @@
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.__algopy_entrypoint_with_init() -> uint64:
 main:
-    intcblock 1 0 80 81
-    bytecblock 0x00 0x151f7c75 "events" "clauses" 0x151f7c750000
-    // smart_contracts/responsive_donation/contract.py:60
+    intcblock 0 1 80 81 960
+    bytecblock 0x00 0x151f7c75 "events" "clauses" "event_clauses" 0x0001 0x0000000000000000
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txn NumAppArgs
-    bz main_bare_routing@15
-    pushbytess 0x963e92ef 0x848dbe52 0x1206d8fd 0xa6fed344 0x2db69946 0xb5a167ca 0xb84e15d6 0x765e0f3f 0xc89dd902 0x2c1d6d17 // method "create_event(string,address)uint64", method "instantaneous_payout(address,pay)bool", method "create_conditional_donation(uint64,address,address,pay)uint64", method "mixed_donation(address,uint64,uint64,address,address,pay)uint64", method "resolve_event(uint64,bool)bool", method "execute_conditional_clause(uint64)bool", method "get_event_info(uint64)(uint64,string,bool,bool,address)", method "get_clause_info(uint64)(uint64,uint64,uint64,address,address,address,bool)", method "get_pending_events()uint64[]", method "get_clauses_for_event(uint64)uint64[]"
+    bz main_bare_routing@16
+    pushbytess 0x963e92ef 0x848dbe52 0x1206d8fd 0xa6fed344 0x2db69946 0xb5a167ca 0x153a525c 0xb84e15d6 0x765e0f3f 0xc89dd902 0x2c1d6d17 // method "create_event(string,address)uint64", method "instantaneous_payout(address,pay)bool", method "create_conditional_donation(uint64,address,address,pay)uint64", method "mixed_donation(address,uint64,uint64,address,address,pay)uint64", method "resolve_event(uint64,bool)bool", method "execute_conditional_clause(uint64)bool", method "execute_clauses_for_event(uint64)uint64", method "get_event_info(uint64)(uint64,string,bool,bool,address)", method "get_clause_info(uint64)(uint64,uint64,uint64,address,address,address,bool)", method "get_pending_events()uint64[]", method "get_clauses_for_event(uint64)uint64[]"
     txna ApplicationArgs 0
-    match main_create_event_route@5 main_instantaneous_payout_route@6 main_create_conditional_donation_route@7 main_mixed_donation_route@8 main_resolve_event_route@9 main_execute_conditional_clause_route@10 main_get_event_info_route@11 main_get_clause_info_route@12 main_get_pending_events_route@13 main_get_clauses_for_event_route@14
+    match main_create_event_route@5 main_instantaneous_payout_route@6 main_create_conditional_donation_route@7 main_mixed_donation_route@8 main_resolve_event_route@9 main_execute_conditional_clause_route@10 main_execute_clauses_for_event_route@11 main_get_event_info_route@12 main_get_clause_info_route@13 main_get_pending_events_route@14 main_get_clauses_for_event_route@15
 
-main_after_if_else@17:
-    // smart_contracts/responsive_donation/contract.py:60
+main_after_if_else@18:
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
-    intc_1 // 0
+    intc_0 // 0
     return
 
-main_get_clauses_for_event_route@14:
-    // smart_contracts/responsive_donation/contract.py:407
+main_get_clauses_for_event_route@15:
+    // smart_contracts/responsive_donation/contract.py:494
     // @abimethod(readonly=True)
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    bytec 4 // 0x151f7c750000
-    log
-    intc_0 // 1
-    return
-
-main_get_pending_events_route@13:
-    // smart_contracts/responsive_donation/contract.py:389
-    // @abimethod(readonly=True)
-    txn OnCompletion
-    !
-    assert // OnCompletion is not NoOp
-    txn ApplicationID
-    assert // can only call when not creating
-    bytec 4 // 0x151f7c750000
-    log
-    intc_0 // 1
-    return
-
-main_get_clause_info_route@12:
-    // smart_contracts/responsive_donation/contract.py:372
-    // @abimethod(readonly=True)
-    txn OnCompletion
-    !
-    assert // OnCompletion is not NoOp
-    txn ApplicationID
-    assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/responsive_donation/contract.py:372
+    // smart_contracts/responsive_donation/contract.py:494
+    // @abimethod(readonly=True)
+    callsub get_clauses_for_event
+    bytec_1 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    return
+
+main_get_pending_events_route@14:
+    // smart_contracts/responsive_donation/contract.py:476
+    // @abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    pushbytes 0x151f7c750000
+    log
+    intc_1 // 1
+    return
+
+main_get_clause_info_route@13:
+    // smart_contracts/responsive_donation/contract.py:459
+    // @abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/responsive_donation/contract.py:61
+    // class ResponsiveDonation(ARC4Contract):
+    txna ApplicationArgs 1
+    // smart_contracts/responsive_donation/contract.py:459
     // @abimethod(readonly=True)
     callsub get_clause_info
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
-main_get_event_info_route@11:
-    // smart_contracts/responsive_donation/contract.py:355
+main_get_event_info_route@12:
+    // smart_contracts/responsive_donation/contract.py:442
     // @abimethod(readonly=True)
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/responsive_donation/contract.py:355
+    // smart_contracts/responsive_donation/contract.py:442
     // @abimethod(readonly=True)
     callsub get_event_info
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
+    return
+
+main_execute_clauses_for_event_route@11:
+    // smart_contracts/responsive_donation/contract.py:383
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/responsive_donation/contract.py:61
+    // class ResponsiveDonation(ARC4Contract):
+    txna ApplicationArgs 1
+    // smart_contracts/responsive_donation/contract.py:383
+    // @abimethod()
+    callsub execute_clauses_for_event
+    bytec_1 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
     return
 
 main_execute_conditional_clause_route@10:
-    // smart_contracts/responsive_donation/contract.py:306
+    // smart_contracts/responsive_donation/contract.py:334
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/responsive_donation/contract.py:306
+    // smart_contracts/responsive_donation/contract.py:334
     // @abimethod()
     callsub execute_conditional_clause
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 main_resolve_event_route@9:
-    // smart_contracts/responsive_donation/contract.py:272
+    // smart_contracts/responsive_donation/contract.py:300
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
     txna ApplicationArgs 2
-    // smart_contracts/responsive_donation/contract.py:272
+    // smart_contracts/responsive_donation/contract.py:300
     // @abimethod()
     callsub resolve_event
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 main_mixed_donation_route@8:
-    // smart_contracts/responsive_donation/contract.py:206
+    // smart_contracts/responsive_donation/contract.py:224
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
     txna ApplicationArgs 2
@@ -154,124 +183,124 @@ main_mixed_donation_route@8:
     txna ApplicationArgs 4
     txna ApplicationArgs 5
     txn GroupIndex
-    intc_0 // 1
+    intc_1 // 1
     -
     dup
     gtxns TypeEnum
-    intc_0 // pay
+    intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/responsive_donation/contract.py:206
+    // smart_contracts/responsive_donation/contract.py:224
     // @abimethod()
     callsub mixed_donation
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 main_create_conditional_donation_route@7:
-    // smart_contracts/responsive_donation/contract.py:158
+    // smart_contracts/responsive_donation/contract.py:166
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
     txna ApplicationArgs 2
     txna ApplicationArgs 3
     txn GroupIndex
-    intc_0 // 1
+    intc_1 // 1
     -
     dup
     gtxns TypeEnum
-    intc_0 // pay
+    intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/responsive_donation/contract.py:158
+    // smart_contracts/responsive_donation/contract.py:166
     // @abimethod()
     callsub create_conditional_donation
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 main_instantaneous_payout_route@6:
-    // smart_contracts/responsive_donation/contract.py:126
+    // smart_contracts/responsive_donation/contract.py:134
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
     txn GroupIndex
-    intc_0 // 1
+    intc_1 // 1
     -
     dup
     gtxns TypeEnum
-    intc_0 // pay
+    intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/responsive_donation/contract.py:126
+    // smart_contracts/responsive_donation/contract.py:134
     // @abimethod()
     callsub instantaneous_payout
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
 main_create_event_route@5:
-    // smart_contracts/responsive_donation/contract.py:96
+    // smart_contracts/responsive_donation/contract.py:104
     // @abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/responsive_donation/contract.py:60
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txna ApplicationArgs 1
     txna ApplicationArgs 2
-    // smart_contracts/responsive_donation/contract.py:96
+    // smart_contracts/responsive_donation/contract.py:104
     // @abimethod()
     callsub create_event
     bytec_1 // 0x151f7c75
     swap
     concat
     log
-    intc_0 // 1
+    intc_1 // 1
     return
 
-main_bare_routing@15:
-    // smart_contracts/responsive_donation/contract.py:60
+main_bare_routing@16:
+    // smart_contracts/responsive_donation/contract.py:61
     // class ResponsiveDonation(ARC4Contract):
     txn OnCompletion
-    bnz main_after_if_else@17
+    bnz main_after_if_else@18
     txn ApplicationID
     !
     assert // can only call when creating
-    intc_0 // 1
+    intc_1 // 1
     return
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.create_event(event_string: bytes, oracle_address: bytes) -> bytes:
 create_event:
-    // smart_contracts/responsive_donation/contract.py:96-101
+    // smart_contracts/responsive_donation/contract.py:104-109
     // @abimethod()
     // def create_event(
     //     self,
@@ -279,12 +308,12 @@ create_event:
     //     oracle_address: arc4.Address
     // ) -> arc4.UInt64:
     proto 2 1
-    // smart_contracts/responsive_donation/contract.py:112-113
+    // smart_contracts/responsive_donation/contract.py:120-121
     // # Use timestamp as unique event ID
     // event_id = arc4.UInt64(Global.latest_timestamp)
     global LatestTimestamp
     itob
-    // smart_contracts/responsive_donation/contract.py:115-122
+    // smart_contracts/responsive_donation/contract.py:123-130
     // # Create and store the event struct
     // self.listed_events[event_id] = EventStruct(
     //     event_id=event_id,
@@ -296,10 +325,10 @@ create_event:
     dup
     pushbytes 0x002b
     concat
-    // smart_contracts/responsive_donation/contract.py:119
+    // smart_contracts/responsive_donation/contract.py:127
     // pending=arc4.Bool(True),
     pushbytes 0x80
-    // smart_contracts/responsive_donation/contract.py:115-122
+    // smart_contracts/responsive_donation/contract.py:123-130
     // # Create and store the event struct
     // self.listed_events[event_id] = EventStruct(
     //     event_id=event_id,
@@ -310,19 +339,19 @@ create_event:
     // )
     concat
     intc_3 // 81
-    intc_1 // 0
+    intc_0 // 0
     setbit
     frame_dig -1
     concat
     frame_dig -2
     concat
-    // smart_contracts/responsive_donation/contract.py:115-116
+    // smart_contracts/responsive_donation/contract.py:123-124
     // # Create and store the event struct
     // self.listed_events[event_id] = EventStruct(
     bytec_2 // "events"
     dig 2
     concat
-    // smart_contracts/responsive_donation/contract.py:115-122
+    // smart_contracts/responsive_donation/contract.py:123-130
     // # Create and store the event struct
     // self.listed_events[event_id] = EventStruct(
     //     event_id=event_id,
@@ -336,14 +365,14 @@ create_event:
     pop
     swap
     box_put
-    // smart_contracts/responsive_donation/contract.py:124
+    // smart_contracts/responsive_donation/contract.py:132
     // return event_id
     retsub
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.instantaneous_payout(recipient_address: bytes, payment: uint64) -> uint64:
 instantaneous_payout:
-    // smart_contracts/responsive_donation/contract.py:126-131
+    // smart_contracts/responsive_donation/contract.py:134-139
     // @abimethod()
     // def instantaneous_payout(
     //     self,
@@ -351,7 +380,7 @@ instantaneous_payout:
     //     payment: gtxn.PaymentTransaction
     // ) -> bool:
     proto 2 1
-    // smart_contracts/responsive_donation/contract.py:143-144
+    // smart_contracts/responsive_donation/contract.py:151-152
     // # Validate the payment transaction
     // assert payment.receiver == Global.current_application_address, "Payment must be sent to contract"
     frame_dig -1
@@ -359,26 +388,26 @@ instantaneous_payout:
     global CurrentApplicationAddress
     ==
     assert // Payment must be sent to contract
-    // smart_contracts/responsive_donation/contract.py:145
+    // smart_contracts/responsive_donation/contract.py:153
     // assert payment.sender == Txn.sender, "Payment sender must match transaction sender"
     frame_dig -1
     gtxns Sender
     txn Sender
     ==
     assert // Payment sender must match transaction sender
-    // smart_contracts/responsive_donation/contract.py:146
+    // smart_contracts/responsive_donation/contract.py:154
     // assert payment.amount > 0, "Payment amount must be greater than 0"
     frame_dig -1
     gtxns Amount
     dup
     assert // Payment amount must be greater than 0
-    // smart_contracts/responsive_donation/contract.py:147
+    // smart_contracts/responsive_donation/contract.py:155
     // assert payment.amount >= 1000, "Minimum donation is 1000 microAlgos (0.001 ALGO)"
     dup
     pushint 1000 // 1000
     >=
     assert // Minimum donation is 1000 microAlgos (0.001 ALGO)
-    // smart_contracts/responsive_donation/contract.py:149-154
+    // smart_contracts/responsive_donation/contract.py:157-162
     // # Immediately transfer the funds to the recipient
     // itxn.Payment(
     //     amount=payment.amount,
@@ -389,16 +418,16 @@ instantaneous_payout:
     frame_dig -2
     itxn_field Receiver
     itxn_field Amount
-    // smart_contracts/responsive_donation/contract.py:149-150
+    // smart_contracts/responsive_donation/contract.py:157-158
     // # Immediately transfer the funds to the recipient
     // itxn.Payment(
-    intc_0 // pay
+    intc_1 // pay
     itxn_field TypeEnum
-    // smart_contracts/responsive_donation/contract.py:153
+    // smart_contracts/responsive_donation/contract.py:161
     // fee=0,
-    intc_1 // 0
+    intc_0 // 0
     itxn_field Fee
-    // smart_contracts/responsive_donation/contract.py:149-154
+    // smart_contracts/responsive_donation/contract.py:157-162
     // # Immediately transfer the funds to the recipient
     // itxn.Payment(
     //     amount=payment.amount,
@@ -406,15 +435,15 @@ instantaneous_payout:
     //     fee=0,
     // ).submit()
     itxn_submit
-    // smart_contracts/responsive_donation/contract.py:156
+    // smart_contracts/responsive_donation/contract.py:164
     // return True
-    intc_0 // 1
+    intc_1 // 1
     retsub
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.create_conditional_donation(event_id: bytes, recipient_yes: bytes, recipient_no: bytes, payment: uint64) -> bytes:
 create_conditional_donation:
-    // smart_contracts/responsive_donation/contract.py:158-165
+    // smart_contracts/responsive_donation/contract.py:166-173
     // @abimethod()
     // def create_conditional_donation(
     //     self,
@@ -424,7 +453,7 @@ create_conditional_donation:
     //     payment: gtxn.PaymentTransaction
     // ) -> arc4.UInt64:
     proto 4 1
-    // smart_contracts/responsive_donation/contract.py:179-180
+    // smart_contracts/responsive_donation/contract.py:187-188
     // # Ensure the event exists and is still pending
     // assert event_id in self.listed_events, "Event does not exist"
     bytec_2 // "events"
@@ -434,22 +463,22 @@ create_conditional_donation:
     box_len
     bury 1
     assert // Event does not exist
-    // smart_contracts/responsive_donation/contract.py:181
+    // smart_contracts/responsive_donation/contract.py:189
     // event_struct = self.listed_events[event_id].copy()
     box_get
     assert // check self.listed_events entry exists
-    // smart_contracts/responsive_donation/contract.py:182
+    // smart_contracts/responsive_donation/contract.py:190
     // assert event_struct.pending.native, "Event has already been resolved"
     intc_2 // 80
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     assert // Event has already been resolved
-    // smart_contracts/responsive_donation/contract.py:184-185
+    // smart_contracts/responsive_donation/contract.py:192-193
     // # Validate the payment transaction
     // assert payment.receiver == Global.current_application_address, "Payment must be sent to contract"
     frame_dig -1
@@ -457,25 +486,25 @@ create_conditional_donation:
     global CurrentApplicationAddress
     ==
     assert // Payment must be sent to contract
-    // smart_contracts/responsive_donation/contract.py:186
+    // smart_contracts/responsive_donation/contract.py:194
     // assert payment.sender == Txn.sender, "Payment sender must match transaction sender"
     frame_dig -1
     gtxns Sender
     txn Sender
     ==
     assert // Payment sender must match transaction sender
-    // smart_contracts/responsive_donation/contract.py:187
+    // smart_contracts/responsive_donation/contract.py:195
     // assert payment.amount > 0, "Payment amount must be greater than 0"
     frame_dig -1
     gtxns Amount
     dup
     assert // Payment amount must be greater than 0
-    // smart_contracts/responsive_donation/contract.py:189-190
+    // smart_contracts/responsive_donation/contract.py:197-198
     // # Use timestamp + hash of sender for unique clause ID to avoid collisions
     // sender_hash = op.sha256(Txn.sender.bytes)
     txn Sender
     sha256
-    // smart_contracts/responsive_donation/contract.py:191
+    // smart_contracts/responsive_donation/contract.py:199
     // clause_id = arc4.UInt64(Global.latest_timestamp + op.btoi(sender_hash[:8]))
     global LatestTimestamp
     swap
@@ -483,14 +512,15 @@ create_conditional_donation:
     btoi
     +
     itob
-    // smart_contracts/responsive_donation/contract.py:197
+    dup
+    uncover 2
+    // smart_contracts/responsive_donation/contract.py:205
     // payout_amount=arc4.UInt64(payment.amount),
-    swap
     itob
-    // smart_contracts/responsive_donation/contract.py:200
+    // smart_contracts/responsive_donation/contract.py:208
     // donor_address=arc4.Address(Txn.sender),
     txn Sender
-    // smart_contracts/responsive_donation/contract.py:193-202
+    // smart_contracts/responsive_donation/contract.py:201-210
     // # Create and store the conditional clause
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
@@ -512,10 +542,10 @@ create_conditional_donation:
     concat
     swap
     concat
-    // smart_contracts/responsive_donation/contract.py:201
+    // smart_contracts/responsive_donation/contract.py:209
     // executed=arc4.Bool(False)
     bytec_0 // 0x00
-    // smart_contracts/responsive_donation/contract.py:193-202
+    // smart_contracts/responsive_donation/contract.py:201-210
     // # Create and store the conditional clause
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
@@ -527,13 +557,13 @@ create_conditional_donation:
     //     executed=arc4.Bool(False)
     // )
     concat
-    // smart_contracts/responsive_donation/contract.py:193-194
+    // smart_contracts/responsive_donation/contract.py:201-202
     // # Create and store the conditional clause
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     bytec_3 // "clauses"
-    dig 2
+    uncover 2
     concat
-    // smart_contracts/responsive_donation/contract.py:193-202
+    // smart_contracts/responsive_donation/contract.py:201-210
     // # Create and store the conditional clause
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
@@ -546,14 +576,68 @@ create_conditional_donation:
     // )
     swap
     box_put
-    // smart_contracts/responsive_donation/contract.py:204
+    // smart_contracts/responsive_donation/contract.py:212-213
+    // # Add clause to event index for efficient lookup
+    // if event_id in self.event_clauses:
+    bytec 4 // "event_clauses"
+    frame_dig -4
+    concat
+    dup
+    box_len
+    bury 1
+    bz create_conditional_donation_else_body@2
+    // smart_contracts/responsive_donation/contract.py:214
+    // existing_clauses = self.event_clauses[event_id].copy()
+    frame_dig 1
+    dup
+    box_get
+    assert // check self.event_clauses entry exists
+    // smart_contracts/responsive_donation/contract.py:215
+    // existing_clauses.append(clause_id)
+    extract 2 0
+    frame_dig 0
+    concat
+    dup
+    len
+    pushint 8 // 8
+    /
+    itob
+    extract 6 2
+    swap
+    concat
+    // smart_contracts/responsive_donation/contract.py:216
+    // self.event_clauses[event_id] = existing_clauses.copy()
+    dig 1
+    box_del
+    pop
+    box_put
+    // smart_contracts/responsive_donation/contract.py:222
+    // return clause_id
+    retsub
+
+create_conditional_donation_else_body@2:
+    // smart_contracts/responsive_donation/contract.py:218-219
+    // # Create new array with this clause
+    // new_clause_array = arc4.DynamicArray[arc4.UInt64](clause_id)
+    bytec 5 // 0x0001
+    frame_dig 0
+    concat
+    // smart_contracts/responsive_donation/contract.py:220
+    // self.event_clauses[event_id] = new_clause_array.copy()
+    frame_dig 1
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    // smart_contracts/responsive_donation/contract.py:222
     // return clause_id
     retsub
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.mixed_donation(instant_recipient: bytes, instant_amount: bytes, event_id: bytes, recipient_yes: bytes, recipient_no: bytes, payment: uint64) -> bytes:
 mixed_donation:
-    // smart_contracts/responsive_donation/contract.py:206-215
+    // smart_contracts/responsive_donation/contract.py:224-233
     // @abimethod()
     // def mixed_donation(
     //     self,
@@ -565,7 +649,9 @@ mixed_donation:
     //     payment: gtxn.PaymentTransaction
     // ) -> arc4.UInt64:
     proto 6 1
-    // smart_contracts/responsive_donation/contract.py:231-232
+    intc_0 // 0
+    dup
+    // smart_contracts/responsive_donation/contract.py:249-250
     // # Validate the payment transaction
     // assert payment.receiver == Global.current_application_address, "Payment must be sent to contract"
     frame_dig -1
@@ -573,20 +659,20 @@ mixed_donation:
     global CurrentApplicationAddress
     ==
     assert // Payment must be sent to contract
-    // smart_contracts/responsive_donation/contract.py:233
+    // smart_contracts/responsive_donation/contract.py:251
     // assert payment.sender == Txn.sender, "Payment sender must match transaction sender"
     frame_dig -1
     gtxns Sender
     txn Sender
     ==
     assert // Payment sender must match transaction sender
-    // smart_contracts/responsive_donation/contract.py:234
+    // smart_contracts/responsive_donation/contract.py:252
     // assert payment.amount > 0, "Payment amount must be greater than 0"
     frame_dig -1
     gtxns Amount
     dup
     assert // Payment amount must be greater than 0
-    // smart_contracts/responsive_donation/contract.py:236-237
+    // smart_contracts/responsive_donation/contract.py:254-255
     // # Calculate total required amount
     // conditional_amount = arc4.UInt64(payment.amount - instant_amount.native)
     frame_dig -5
@@ -598,25 +684,25 @@ mixed_donation:
     itob
     dup
     cover 3
-    // smart_contracts/responsive_donation/contract.py:238
+    // smart_contracts/responsive_donation/contract.py:256
     // assert conditional_amount.native > 0, "Conditional amount must be greater than 0"
     btoi
     dup
     assert // Conditional amount must be greater than 0
-    // smart_contracts/responsive_donation/contract.py:240
+    // smart_contracts/responsive_donation/contract.py:258
     // total_required = instant_amount.native + conditional_amount.native
     dig 1
     +
-    // smart_contracts/responsive_donation/contract.py:241
+    // smart_contracts/responsive_donation/contract.py:259
     // assert payment.amount == total_required, "Payment amount must equal sum of donations"
     uncover 2
     ==
     assert // Payment amount must equal sum of donations
-    // smart_contracts/responsive_donation/contract.py:243-244
+    // smart_contracts/responsive_donation/contract.py:261-262
     // # Process instant donation if specified
     // if instant_amount.native > 0:
     bz mixed_donation_after_if_else@3
-    // smart_contracts/responsive_donation/contract.py:245-249
+    // smart_contracts/responsive_donation/contract.py:263-267
     // itxn.Payment(
     //     amount=instant_amount.native,
     //     receiver=instant_recipient.native,
@@ -625,17 +711,17 @@ mixed_donation:
     itxn_begin
     frame_dig -6
     itxn_field Receiver
-    frame_dig 0
+    frame_dig 2
     itxn_field Amount
-    // smart_contracts/responsive_donation/contract.py:245
+    // smart_contracts/responsive_donation/contract.py:263
     // itxn.Payment(
-    intc_0 // pay
+    intc_1 // pay
     itxn_field TypeEnum
-    // smart_contracts/responsive_donation/contract.py:248
+    // smart_contracts/responsive_donation/contract.py:266
     // fee=0,
-    intc_1 // 0
+    intc_0 // 0
     itxn_field Fee
-    // smart_contracts/responsive_donation/contract.py:245-249
+    // smart_contracts/responsive_donation/contract.py:263-267
     // itxn.Payment(
     //     amount=instant_amount.native,
     //     receiver=instant_recipient.native,
@@ -644,7 +730,7 @@ mixed_donation:
     itxn_submit
 
 mixed_donation_after_if_else@3:
-    // smart_contracts/responsive_donation/contract.py:251-252
+    // smart_contracts/responsive_donation/contract.py:269-270
     // # Validate event exists and is pending for conditional donation
     // assert event_id in self.listed_events, "Event does not exist"
     bytec_2 // "events"
@@ -654,40 +740,42 @@ mixed_donation_after_if_else@3:
     box_len
     bury 1
     assert // Event does not exist
-    // smart_contracts/responsive_donation/contract.py:253
+    // smart_contracts/responsive_donation/contract.py:271
     // event_struct = self.listed_events[event_id].copy()
     box_get
     assert // check self.listed_events entry exists
-    // smart_contracts/responsive_donation/contract.py:254
+    // smart_contracts/responsive_donation/contract.py:272
     // assert event_struct.pending.native, "Event has already been resolved"
     intc_2 // 80
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     assert // Event has already been resolved
-    // smart_contracts/responsive_donation/contract.py:256-257
+    // smart_contracts/responsive_donation/contract.py:274-275
     // # Create conditional clause with unique ID
     // sender_hash = op.sha256(Txn.sender.bytes)
     txn Sender
     sha256
-    // smart_contracts/responsive_donation/contract.py:258
+    // smart_contracts/responsive_donation/contract.py:276
     // clause_id = arc4.UInt64(Global.latest_timestamp + op.btoi(sender_hash[:8]) + 1)
     global LatestTimestamp
     swap
     substring 0 8
     btoi
     +
-    intc_0 // 1
+    intc_1 // 1
     +
     itob
-    // smart_contracts/responsive_donation/contract.py:266
+    dup
+    frame_bury 1
+    // smart_contracts/responsive_donation/contract.py:284
     // donor_address=arc4.Address(Txn.sender),
     txn Sender
-    // smart_contracts/responsive_donation/contract.py:260-268
+    // smart_contracts/responsive_donation/contract.py:278-286
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
     //     event_id=event_id,
@@ -700,7 +788,7 @@ mixed_donation_after_if_else@3:
     dig 1
     frame_dig -4
     concat
-    frame_dig 1
+    frame_dig 3
     concat
     frame_dig -3
     concat
@@ -708,10 +796,10 @@ mixed_donation_after_if_else@3:
     concat
     swap
     concat
-    // smart_contracts/responsive_donation/contract.py:267
+    // smart_contracts/responsive_donation/contract.py:285
     // executed=arc4.Bool(False)
     bytec_0 // 0x00
-    // smart_contracts/responsive_donation/contract.py:260-268
+    // smart_contracts/responsive_donation/contract.py:278-286
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
     //     event_id=event_id,
@@ -722,12 +810,12 @@ mixed_donation_after_if_else@3:
     //     executed=arc4.Bool(False)
     // )
     concat
-    // smart_contracts/responsive_donation/contract.py:260
+    // smart_contracts/responsive_donation/contract.py:278
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     bytec_3 // "clauses"
-    dig 2
+    uncover 2
     concat
-    // smart_contracts/responsive_donation/contract.py:260-268
+    // smart_contracts/responsive_donation/contract.py:278-286
     // self.conditional_clauses[clause_id] = ConditionalClauseStruct(
     //     clause_id=clause_id,
     //     event_id=event_id,
@@ -739,15 +827,71 @@ mixed_donation_after_if_else@3:
     // )
     swap
     box_put
-    // smart_contracts/responsive_donation/contract.py:270
+    // smart_contracts/responsive_donation/contract.py:288-289
+    // # Add clause to event index for efficient lookup
+    // if event_id in self.event_clauses:
+    bytec 4 // "event_clauses"
+    frame_dig -4
+    concat
+    dup
+    frame_bury 0
+    box_len
+    bury 1
+    bz mixed_donation_else_body@5
+    // smart_contracts/responsive_donation/contract.py:290
+    // existing_clauses = self.event_clauses[event_id].copy()
+    frame_dig 0
+    dup
+    box_get
+    assert // check self.event_clauses entry exists
+    // smart_contracts/responsive_donation/contract.py:291
+    // existing_clauses.append(clause_id)
+    extract 2 0
+    frame_dig 1
+    concat
+    dup
+    len
+    pushint 8 // 8
+    /
+    itob
+    extract 6 2
+    swap
+    concat
+    // smart_contracts/responsive_donation/contract.py:292
+    // self.event_clauses[event_id] = existing_clauses.copy()
+    dig 1
+    box_del
+    pop
+    box_put
+
+mixed_donation_after_if_else@6:
+    // smart_contracts/responsive_donation/contract.py:298
     // return clause_id
+    frame_dig 1
     frame_bury 0
     retsub
+
+mixed_donation_else_body@5:
+    // smart_contracts/responsive_donation/contract.py:294-295
+    // # Create new array with this clause
+    // new_clause_array = arc4.DynamicArray[arc4.UInt64](clause_id)
+    bytec 5 // 0x0001
+    frame_dig 1
+    concat
+    // smart_contracts/responsive_donation/contract.py:296
+    // self.event_clauses[event_id] = new_clause_array.copy()
+    frame_dig 0
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    b mixed_donation_after_if_else@6
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.resolve_event(event_id: bytes, resolution: bytes) -> uint64:
 resolve_event:
-    // smart_contracts/responsive_donation/contract.py:272-277
+    // smart_contracts/responsive_donation/contract.py:300-305
     // @abimethod()
     // def resolve_event(
     //     self,
@@ -755,7 +899,7 @@ resolve_event:
     //     resolution: arc4.Bool
     // ) -> bool:
     proto 2 1
-    // smart_contracts/responsive_donation/contract.py:288-289
+    // smart_contracts/responsive_donation/contract.py:316-317
     // # Ensure the event exists
     // assert event_id in self.listed_events, "Event does not exist"
     bytec_2 // "events"
@@ -765,25 +909,25 @@ resolve_event:
     box_len
     bury 1
     assert // Event does not exist
-    // smart_contracts/responsive_donation/contract.py:291
+    // smart_contracts/responsive_donation/contract.py:319
     // event_struct = self.listed_events[event_id].copy()
     dup
     box_get
     assert // check self.listed_events entry exists
-    // smart_contracts/responsive_donation/contract.py:293-294
+    // smart_contracts/responsive_donation/contract.py:321-322
     // # Ensure the event is still pending
     // assert event_struct.pending.native, "Event has already been resolved"
     dup
     intc_2 // 80
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     assert // Event has already been resolved
-    // smart_contracts/responsive_donation/contract.py:296-297
+    // smart_contracts/responsive_donation/contract.py:324-325
     // # Ensure the caller is the authorized oracle
     // assert Txn.sender == event_struct.oracle_address.native, "Only authorized oracle can resolve event"
     txn Sender
@@ -791,42 +935,42 @@ resolve_event:
     extract 11 32 // on error: Index access is out of bounds
     ==
     assert // Only authorized oracle can resolve event
-    // smart_contracts/responsive_donation/contract.py:299-300
+    // smart_contracts/responsive_donation/contract.py:327-328
     // # Update the event struct
     // event_struct.pending = arc4.Bool(False)
     intc_2 // 80
-    intc_1 // 0
+    intc_0 // 0
     setbit
-    // smart_contracts/responsive_donation/contract.py:301
+    // smart_contracts/responsive_donation/contract.py:329
     // event_struct.resolution = resolution
     frame_dig -1
-    intc_1 // 0
+    intc_0 // 0
     getbit
     intc_3 // 81
     swap
     setbit
-    // smart_contracts/responsive_donation/contract.py:302
+    // smart_contracts/responsive_donation/contract.py:330
     // self.listed_events[event_id] = event_struct.copy()
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/responsive_donation/contract.py:304
+    // smart_contracts/responsive_donation/contract.py:332
     // return True
-    intc_0 // 1
+    intc_1 // 1
     retsub
 
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.execute_conditional_clause(clause_id: bytes) -> uint64:
 execute_conditional_clause:
-    // smart_contracts/responsive_donation/contract.py:306-310
+    // smart_contracts/responsive_donation/contract.py:334-338
     // @abimethod()
     // def execute_conditional_clause(
     //     self,
     //     clause_id: arc4.UInt64
     // ) -> bool:
     proto 1 1
-    // smart_contracts/responsive_donation/contract.py:321-322
+    // smart_contracts/responsive_donation/contract.py:349-350
     // # Ensure the clause exists
     // assert clause_id in self.conditional_clauses, "Clause does not exist"
     bytec_3 // "clauses"
@@ -836,28 +980,28 @@ execute_conditional_clause:
     box_len
     bury 1
     assert // Clause does not exist
-    // smart_contracts/responsive_donation/contract.py:324
+    // smart_contracts/responsive_donation/contract.py:352
     // clause_struct = self.conditional_clauses[clause_id].copy()
     box_get
     swap
     dup
     uncover 2
     assert // check self.conditional_clauses entry exists
-    // smart_contracts/responsive_donation/contract.py:326-327
+    // smart_contracts/responsive_donation/contract.py:354-355
     // # Ensure the clause hasn't been executed yet
     // assert not clause_struct.executed.native, "Clause has already been executed"
     dup
-    pushint 960 // 960
+    intc 4 // 960
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     !
     assert // Clause has already been executed
-    // smart_contracts/responsive_donation/contract.py:329-330
+    // smart_contracts/responsive_donation/contract.py:357-358
     // # Get the associated event
     // assert clause_struct.event_id in self.listed_events, "Associated event does not exist"
     extract 8 8 // on error: Index access is out of bounds
@@ -868,43 +1012,43 @@ execute_conditional_clause:
     box_len
     bury 1
     assert // Associated event does not exist
-    // smart_contracts/responsive_donation/contract.py:331
+    // smart_contracts/responsive_donation/contract.py:359
     // event_struct = self.listed_events[clause_struct.event_id].copy()
     box_get
     assert // check self.listed_events entry exists
-    // smart_contracts/responsive_donation/contract.py:333-334
+    // smart_contracts/responsive_donation/contract.py:361-362
     // # Ensure the event has been resolved
     // assert not event_struct.pending.native, "Event has not been resolved yet"
     dup
     intc_2 // 80
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     !
     assert // Event has not been resolved yet
-    // smart_contracts/responsive_donation/contract.py:336-337
+    // smart_contracts/responsive_donation/contract.py:364-365
     // # Determine recipient based on event resolution
     // if event_struct.resolution.native:
     intc_3 // 81
     getbit
     bytec_0 // 0x00
-    intc_1 // 0
+    intc_0 // 0
     uncover 2
     setbit
-    intc_1 // 0
+    intc_0 // 0
     getbit
     bz execute_conditional_clause_else_body@2
-    // smart_contracts/responsive_donation/contract.py:338
+    // smart_contracts/responsive_donation/contract.py:366
     // recipient = clause_struct.recipient_yes.native
     frame_dig 1
     extract 24 32 // on error: Index access is out of bounds
 
 execute_conditional_clause_after_if_else@3:
-    // smart_contracts/responsive_donation/contract.py:342-347
+    // smart_contracts/responsive_donation/contract.py:370-375
     // # Execute the payout
     // itxn.Payment(
     //     amount=clause_struct.payout_amount.native,
@@ -912,7 +1056,7 @@ execute_conditional_clause_after_if_else@3:
     //     fee=0,
     // ).submit()
     itxn_begin
-    // smart_contracts/responsive_donation/contract.py:344
+    // smart_contracts/responsive_donation/contract.py:372
     // amount=clause_struct.payout_amount.native,
     frame_dig 1
     dup
@@ -921,16 +1065,16 @@ execute_conditional_clause_after_if_else@3:
     uncover 2
     itxn_field Receiver
     itxn_field Amount
-    // smart_contracts/responsive_donation/contract.py:342-343
+    // smart_contracts/responsive_donation/contract.py:370-371
     // # Execute the payout
     // itxn.Payment(
-    intc_0 // pay
+    intc_1 // pay
     itxn_field TypeEnum
-    // smart_contracts/responsive_donation/contract.py:346
+    // smart_contracts/responsive_donation/contract.py:374
     // fee=0,
-    intc_1 // 0
+    intc_0 // 0
     itxn_field Fee
-    // smart_contracts/responsive_donation/contract.py:342-347
+    // smart_contracts/responsive_donation/contract.py:370-375
     // # Execute the payout
     // itxn.Payment(
     //     amount=clause_struct.payout_amount.native,
@@ -938,41 +1082,46 @@ execute_conditional_clause_after_if_else@3:
     //     fee=0,
     // ).submit()
     itxn_submit
-    // smart_contracts/responsive_donation/contract.py:349-350
+    // smart_contracts/responsive_donation/contract.py:377-378
     // # Mark the clause as executed
     // clause_struct.executed = arc4.Bool(True)
-    pushint 960 // 960
-    intc_0 // 1
+    intc 4 // 960
+    intc_1 // 1
     setbit
-    // smart_contracts/responsive_donation/contract.py:351
+    // smart_contracts/responsive_donation/contract.py:379
     // self.conditional_clauses[clause_id] = clause_struct.copy()
     frame_dig 0
     swap
     box_put
-    // smart_contracts/responsive_donation/contract.py:353
+    // smart_contracts/responsive_donation/contract.py:381
     // return True
-    intc_0 // 1
+    intc_1 // 1
     frame_bury 0
     retsub
 
 execute_conditional_clause_else_body@2:
-    // smart_contracts/responsive_donation/contract.py:340
+    // smart_contracts/responsive_donation/contract.py:368
     // recipient = clause_struct.recipient_no.native
     frame_dig 1
     extract 56 32 // on error: Index access is out of bounds
     b execute_conditional_clause_after_if_else@3
 
 
-// smart_contracts.responsive_donation.contract.ResponsiveDonation.get_event_info(event_id: bytes) -> bytes:
-get_event_info:
-    // smart_contracts/responsive_donation/contract.py:355-359
-    // @abimethod(readonly=True)
-    // def get_event_info(
+// smart_contracts.responsive_donation.contract.ResponsiveDonation.execute_clauses_for_event(event_id: bytes) -> bytes:
+execute_clauses_for_event:
+    // smart_contracts/responsive_donation/contract.py:383-387
+    // @abimethod()
+    // def execute_clauses_for_event(
     //     self,
     //     event_id: arc4.UInt64
-    // ) -> EventStruct:
+    // ) -> arc4.UInt64:
     proto 1 1
-    // smart_contracts/responsive_donation/contract.py:369
+    intc_0 // 0
+    dupn 4
+    pushbytes ""
+    dup
+    // smart_contracts/responsive_donation/contract.py:398-399
+    // # Ensure the event exists and is resolved
     // assert event_id in self.listed_events, "Event does not exist"
     bytec_2 // "events"
     frame_dig -1
@@ -981,7 +1130,236 @@ get_event_info:
     box_len
     bury 1
     assert // Event does not exist
-    // smart_contracts/responsive_donation/contract.py:370
+    // smart_contracts/responsive_donation/contract.py:400
+    // event_struct = self.listed_events[event_id].copy()
+    box_get
+    swap
+    dup
+    uncover 2
+    assert // check self.listed_events entry exists
+    // smart_contracts/responsive_donation/contract.py:401
+    // assert not event_struct.pending.native, "Event has not been resolved yet"
+    intc_2 // 80
+    getbit
+    bytec_0 // 0x00
+    intc_0 // 0
+    uncover 2
+    setbit
+    intc_0 // 0
+    getbit
+    !
+    assert // Event has not been resolved yet
+    // smart_contracts/responsive_donation/contract.py:403-404
+    // # Get all clauses for this event
+    // if event_id not in self.event_clauses:
+    bytec 4 // "event_clauses"
+    frame_dig -1
+    concat
+    dup
+    box_len
+    bury 1
+    bnz execute_clauses_for_event_after_if_else@2
+    // smart_contracts/responsive_donation/contract.py:405-406
+    // # No clauses to execute
+    // return arc4.UInt64(0)
+    bytec 6 // 0x0000000000000000
+    frame_bury 0
+    retsub
+
+execute_clauses_for_event_after_if_else@2:
+    // smart_contracts/responsive_donation/contract.py:408
+    // clause_ids = self.event_clauses[event_id].copy()
+    frame_dig 8
+    box_get
+    swap
+    dup
+    cover 2
+    frame_bury 1
+    assert // check self.event_clauses entry exists
+    // smart_contracts/responsive_donation/contract.py:409
+    // executed_count = arc4.UInt64(0)
+    bytec 6 // 0x0000000000000000
+    frame_bury 3
+    // smart_contracts/responsive_donation/contract.py:411-412
+    // # Execute each unexecuted clause
+    // for i in urange(clause_ids.length):
+    intc_0 // 0
+    extract_uint16
+    frame_bury 6
+    intc_0 // 0
+    frame_bury 5
+
+execute_clauses_for_event_for_header@3:
+    // smart_contracts/responsive_donation/contract.py:411-412
+    // # Execute each unexecuted clause
+    // for i in urange(clause_ids.length):
+    frame_dig 5
+    frame_dig 6
+    <
+    bz execute_clauses_for_event_after_for@14
+    // smart_contracts/responsive_donation/contract.py:413
+    // clause_id = clause_ids[i]
+    frame_dig 1
+    extract 2 0
+    frame_dig 5
+    pushint 8 // 8
+    *
+    pushint 8 // 8
+    extract3 // on error: Index access is out of bounds
+    // smart_contracts/responsive_donation/contract.py:415
+    // if clause_id in self.conditional_clauses:
+    bytec_3 // "clauses"
+    swap
+    concat
+    dup
+    frame_bury 0
+    box_len
+    bury 1
+    frame_dig 3
+    frame_bury 4
+    bz execute_clauses_for_event_after_if_else@12
+    // smart_contracts/responsive_donation/contract.py:416
+    // clause_struct = self.conditional_clauses[clause_id].copy()
+    frame_dig 0
+    box_get
+    swap
+    dup
+    cover 2
+    frame_bury 2
+    assert // check self.conditional_clauses entry exists
+    // smart_contracts/responsive_donation/contract.py:418-419
+    // # Skip if already executed
+    // if clause_struct.executed.native:
+    intc 4 // 960
+    getbit
+    bytec_0 // 0x00
+    intc_0 // 0
+    uncover 2
+    setbit
+    intc_0 // 0
+    getbit
+    bnz execute_clauses_for_event_for_footer@13
+    // smart_contracts/responsive_donation/contract.py:422-423
+    // # Determine recipient based on event resolution
+    // if event_struct.resolution.native:
+    frame_dig 7
+    intc_3 // 81
+    getbit
+    bytec_0 // 0x00
+    intc_0 // 0
+    uncover 2
+    setbit
+    intc_0 // 0
+    getbit
+    bz execute_clauses_for_event_else_body@9
+    // smart_contracts/responsive_donation/contract.py:424
+    // recipient = clause_struct.recipient_yes.native
+    frame_dig 2
+    extract 24 32 // on error: Index access is out of bounds
+
+execute_clauses_for_event_after_if_else@10:
+    // smart_contracts/responsive_donation/contract.py:428-433
+    // # Execute the payout
+    // itxn.Payment(
+    //     amount=clause_struct.payout_amount.native,
+    //     receiver=recipient,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/responsive_donation/contract.py:430
+    // amount=clause_struct.payout_amount.native,
+    frame_dig 2
+    dup
+    pushint 16 // 16
+    extract_uint64
+    uncover 2
+    itxn_field Receiver
+    itxn_field Amount
+    // smart_contracts/responsive_donation/contract.py:428-429
+    // # Execute the payout
+    // itxn.Payment(
+    intc_1 // pay
+    itxn_field TypeEnum
+    // smart_contracts/responsive_donation/contract.py:432
+    // fee=0,
+    intc_0 // 0
+    itxn_field Fee
+    // smart_contracts/responsive_donation/contract.py:428-433
+    // # Execute the payout
+    // itxn.Payment(
+    //     amount=clause_struct.payout_amount.native,
+    //     receiver=recipient,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    // smart_contracts/responsive_donation/contract.py:435-436
+    // # Mark the clause as executed
+    // clause_struct.executed = arc4.Bool(True)
+    intc 4 // 960
+    intc_1 // 1
+    setbit
+    // smart_contracts/responsive_donation/contract.py:437
+    // self.conditional_clauses[clause_id] = clause_struct.copy()
+    frame_dig 0
+    swap
+    box_put
+    // smart_contracts/responsive_donation/contract.py:438
+    // executed_count = arc4.UInt64(executed_count.native + 1)
+    frame_dig 3
+    btoi
+    intc_1 // 1
+    +
+    itob
+    frame_bury 4
+
+execute_clauses_for_event_after_if_else@12:
+    frame_dig 4
+    frame_bury 3
+
+execute_clauses_for_event_for_footer@13:
+    // smart_contracts/responsive_donation/contract.py:411-412
+    // # Execute each unexecuted clause
+    // for i in urange(clause_ids.length):
+    frame_dig 5
+    intc_1 // 1
+    +
+    frame_bury 5
+    b execute_clauses_for_event_for_header@3
+
+execute_clauses_for_event_else_body@9:
+    // smart_contracts/responsive_donation/contract.py:426
+    // recipient = clause_struct.recipient_no.native
+    frame_dig 2
+    extract 56 32 // on error: Index access is out of bounds
+    b execute_clauses_for_event_after_if_else@10
+
+execute_clauses_for_event_after_for@14:
+    // smart_contracts/responsive_donation/contract.py:440
+    // return executed_count
+    frame_dig 3
+    frame_bury 0
+    retsub
+
+
+// smart_contracts.responsive_donation.contract.ResponsiveDonation.get_event_info(event_id: bytes) -> bytes:
+get_event_info:
+    // smart_contracts/responsive_donation/contract.py:442-446
+    // @abimethod(readonly=True)
+    // def get_event_info(
+    //     self,
+    //     event_id: arc4.UInt64
+    // ) -> EventStruct:
+    proto 1 1
+    // smart_contracts/responsive_donation/contract.py:456
+    // assert event_id in self.listed_events, "Event does not exist"
+    bytec_2 // "events"
+    frame_dig -1
+    concat
+    dup
+    box_len
+    bury 1
+    assert // Event does not exist
+    // smart_contracts/responsive_donation/contract.py:457
     // return self.listed_events[event_id]
     box_get
     assert // check self.listed_events entry exists
@@ -990,14 +1368,14 @@ get_event_info:
 
 // smart_contracts.responsive_donation.contract.ResponsiveDonation.get_clause_info(clause_id: bytes) -> bytes:
 get_clause_info:
-    // smart_contracts/responsive_donation/contract.py:372-376
+    // smart_contracts/responsive_donation/contract.py:459-463
     // @abimethod(readonly=True)
     // def get_clause_info(
     //     self,
     //     clause_id: arc4.UInt64
     // ) -> ConditionalClauseStruct:
     proto 1 1
-    // smart_contracts/responsive_donation/contract.py:386
+    // smart_contracts/responsive_donation/contract.py:473
     // assert clause_id in self.conditional_clauses, "Clause does not exist"
     bytec_3 // "clauses"
     frame_dig -1
@@ -1006,8 +1384,44 @@ get_clause_info:
     box_len
     bury 1
     assert // Clause does not exist
-    // smart_contracts/responsive_donation/contract.py:387
+    // smart_contracts/responsive_donation/contract.py:474
     // return self.conditional_clauses[clause_id]
     box_get
     assert // check self.conditional_clauses entry exists
+    retsub
+
+
+// smart_contracts.responsive_donation.contract.ResponsiveDonation.get_clauses_for_event(event_id: bytes) -> bytes:
+get_clauses_for_event:
+    // smart_contracts/responsive_donation/contract.py:494-498
+    // @abimethod(readonly=True)
+    // def get_clauses_for_event(
+    //     self,
+    //     event_id: arc4.UInt64
+    // ) -> arc4.DynamicArray[arc4.UInt64]:
+    proto 1 1
+    // smart_contracts/responsive_donation/contract.py:509-510
+    // # Return indexed clauses for this event
+    // if event_id in self.event_clauses:
+    bytec 4 // "event_clauses"
+    frame_dig -1
+    concat
+    dup
+    box_len
+    bury 1
+    bz get_clauses_for_event_else_body@2
+    // smart_contracts/responsive_donation/contract.py:511
+    // return self.event_clauses[event_id].copy()
+    frame_dig 0
+    box_get
+    assert // check self.event_clauses entry exists
+    swap
+    retsub
+
+get_clauses_for_event_else_body@2:
+    // smart_contracts/responsive_donation/contract.py:513-514
+    // # No clauses for this event
+    // return arc4.DynamicArray[arc4.UInt64]()
+    pushbytes 0x0000
+    swap
     retsub

@@ -1,6 +1,6 @@
 // This context provider gives the rest of the app access to the smart contract's client.
 // The client lets us call methods on the ResponsiveDonation smart contract directly on the Algorand blockchain.
-// Any component in the app can use this context to interact with the contract (for example, to create donations or resolve events).
+// Any component in the app can use this context to interact with the contract (for example, to make donations or resolve events).
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 // These imports allow us to interact with the ResponsiveDonation smart contract on the Algorand blockchain

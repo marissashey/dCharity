@@ -3,6 +3,7 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { useSnackbar } from 'notistack'
 import { useAppClient } from '../context/AppClientContext'
 import { useEvents } from '../hooks/useEvents'
+import { useAutoExecution } from '../hooks/useAutoExecution'
 import { EventStruct } from '../contracts/ResponsiveDonation'
 import { ellipseAddress } from '../utils/ellipseAddress'
 
@@ -11,9 +12,16 @@ export default function EventsGrid() {
   const { enqueueSnackbar } = useSnackbar()
   const { appClient } = useAppClient()
   const { events, fetchEvents, resolveEvent, loading, error, success } = useEvents(appClient, activeAddress)
+  const {
+    executeClausesForEvent,
+    getClausesForEvent,
+    loading: autoExecLoading,
+    error: autoExecError,
+    success: autoExecSuccess,
+  } = useAutoExecution(appClient, activeAddress)
 
-  const [selectedEvent, setSelectedEvent] = useState<[bigint, EventStruct] | null>(null)
-  const [resolution, setResolution] = useState<boolean>(true)
+  const [_selectedEvent, _setSelectedEvent] = useState<[bigint, EventStruct] | null>(null)
+  const [_resolution, _setResolution] = useState<boolean>(true)
 
   useEffect(() => {
     if (appClient) {
@@ -22,28 +30,59 @@ export default function EventsGrid() {
   }, [appClient, fetchEvents])
 
   // Show error notifications
-  if (error) {
-    enqueueSnackbar(error, { variant: 'error' })
-  }
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' })
+    }
+  }, [error, enqueueSnackbar])
+
+  useEffect(() => {
+    if (autoExecError) {
+      enqueueSnackbar(autoExecError, { variant: 'error' })
+    }
+  }, [autoExecError, enqueueSnackbar])
 
   // Show success notifications
-  if (success) {
-    enqueueSnackbar(success, { variant: 'success' })
-  }
+  useEffect(() => {
+    if (success) {
+      enqueueSnackbar(success, { variant: 'success' })
+    }
+  }, [success, enqueueSnackbar])
+
+  useEffect(() => {
+    if (autoExecSuccess) {
+      enqueueSnackbar(autoExecSuccess, { variant: 'success' })
+    }
+  }, [autoExecSuccess, enqueueSnackbar])
 
   const handleResolveEvent = async (eventId: string, resolution: boolean) => {
     try {
+      // First, resolve the event
       await resolveEvent(eventId, resolution)
-      setSelectedEvent(null)
+      _setSelectedEvent(null)
+
+      // Then automatically execute all conditional donations for this event
+      const clauseIds = await getClausesForEvent(eventId)
+      if (clauseIds && clauseIds.length > 0) {
+        enqueueSnackbar(`Event resolved! Found ${clauseIds.length} conditional donations to execute...`, {
+          variant: 'info',
+        })
+
+        // Execute all clauses for this event
+        await executeClausesForEvent(eventId)
+
+        // Refresh the events list to show updated status
+        await fetchEvents()
+      } else {
+        enqueueSnackbar('Event resolved! No conditional donations found for this event.', { variant: 'info' })
+      }
     } catch (error) {
-      console.error('Error resolving event:', error)
+      // Error will be handled by the useEvents hook
     }
   }
 
   const canResolveEvent = (event: EventStruct) => {
-    return activeAddress && 
-           event.oracleAddress.toLowerCase() === activeAddress.toLowerCase() && 
-           event.pending
+    return activeAddress && event.oracleAddress.toLowerCase() === activeAddress.toLowerCase() && event.pending
   }
 
   const getStatusBadge = (event: EventStruct) => {
@@ -56,12 +95,14 @@ export default function EventsGrid() {
     }
   }
 
-  if (loading) {
+  if (loading || autoExecLoading) {
     return (
       <div className="card p-8">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading events...</p>
+          <p className="mt-4 text-gray-600">
+            {autoExecLoading ? 'Executing conditional donations...' : 'Loading events...'}
+          </p>
         </div>
       </div>
     )
@@ -71,11 +112,7 @@ export default function EventsGrid() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">Available Events</h2>
-        <button
-          onClick={fetchEvents}
-          className="btn-secondary"
-          disabled={loading}
-        >
+        <button onClick={fetchEvents} className="btn-secondary" disabled={loading}>
           Refresh
         </button>
       </div>
@@ -99,8 +136,7 @@ export default function EventsGrid() {
 
               <div className="space-y-2 text-sm text-gray-600">
                 <div>
-                  <span className="font-medium">Oracle:</span>{' '}
-                  <span className="font-mono">{ellipseAddress(event.oracleAddress)}</span>
+                  <span className="font-medium">Oracle:</span> <span className="font-mono">{ellipseAddress(event.oracleAddress)}</span>
                 </div>
               </div>
 
@@ -128,9 +164,16 @@ export default function EventsGrid() {
 
               {!event.pending && (
                 <div className="mt-4 pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600">
-                    This event has been resolved. Conditional donations can now be executed.
+                  <p className="text-sm text-gray-600 mb-3">
+                    This event has been resolved. Conditional donations can be executed.
                   </p>
+                  <button
+                    onClick={() => executeClausesForEvent(eventId.toString())}
+                    className="w-full px-3 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded"
+                    disabled={loading || autoExecLoading}
+                  >
+                    {autoExecLoading ? 'Executing...' : 'Execute Conditional Donations'}
+                  </button>
                 </div>
               )}
             </div>

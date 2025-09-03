@@ -7,6 +7,7 @@ from algopy import (
     gtxn,
     itxn,
     op,
+    urange,
 )
 from algopy.arc4 import abimethod
 
@@ -91,6 +92,13 @@ class ResponsiveDonation(ARC4Contract):
             arc4.UInt64,
             ConditionalClauseStruct,
             key_prefix="clauses"
+        )
+        
+        # BoxMap for event->clause indexing (key: event ID, value: array of clause IDs)
+        self.event_clauses = BoxMap(
+            arc4.UInt64,
+            arc4.DynamicArray[arc4.UInt64],
+            key_prefix="event_clauses"
         )
     
     @abimethod()
@@ -201,6 +209,16 @@ class ResponsiveDonation(ARC4Contract):
             executed=arc4.Bool(False)
         )
         
+        # Add clause to event index for efficient lookup
+        if event_id in self.event_clauses:
+            existing_clauses = self.event_clauses[event_id].copy()
+            existing_clauses.append(clause_id)
+            self.event_clauses[event_id] = existing_clauses.copy()
+        else:
+            # Create new array with this clause
+            new_clause_array = arc4.DynamicArray[arc4.UInt64](clause_id)
+            self.event_clauses[event_id] = new_clause_array.copy()
+        
         return clause_id
     
     @abimethod()
@@ -266,6 +284,16 @@ class ResponsiveDonation(ARC4Contract):
             donor_address=arc4.Address(Txn.sender),
             executed=arc4.Bool(False)
         )
+        
+        # Add clause to event index for efficient lookup
+        if event_id in self.event_clauses:
+            existing_clauses = self.event_clauses[event_id].copy()
+            existing_clauses.append(clause_id)
+            self.event_clauses[event_id] = existing_clauses.copy()
+        else:
+            # Create new array with this clause
+            new_clause_array = arc4.DynamicArray[arc4.UInt64](clause_id)
+            self.event_clauses[event_id] = new_clause_array.copy()
         
         return clause_id
     
@@ -352,6 +380,65 @@ class ResponsiveDonation(ARC4Contract):
         
         return True
     
+    @abimethod()
+    def execute_clauses_for_event(
+        self,
+        event_id: arc4.UInt64
+    ) -> arc4.UInt64:
+        """
+        Execute all unexecuted conditional clauses for a resolved event.
+        This is more gas-efficient than executing clauses one by one.
+        
+        Args:
+            event_id: The event whose clauses should be executed
+            
+        Returns:
+            Number of clauses executed
+        """
+        # Ensure the event exists and is resolved
+        assert event_id in self.listed_events, "Event does not exist"
+        event_struct = self.listed_events[event_id].copy()
+        assert not event_struct.pending.native, "Event has not been resolved yet"
+        
+        # Get all clauses for this event
+        if event_id not in self.event_clauses:
+            # No clauses to execute
+            return arc4.UInt64(0)
+        
+        clause_ids = self.event_clauses[event_id].copy()
+        executed_count = arc4.UInt64(0)
+        
+        # Execute each unexecuted clause
+        for i in urange(clause_ids.length):
+            clause_id = clause_ids[i]
+            
+            if clause_id in self.conditional_clauses:
+                clause_struct = self.conditional_clauses[clause_id].copy()
+                
+                # Skip if already executed
+                if clause_struct.executed.native:
+                    continue
+                
+                # Determine recipient based on event resolution
+                if event_struct.resolution.native:
+                    recipient = clause_struct.recipient_yes.native
+                else:
+                    recipient = clause_struct.recipient_no.native
+                
+                # Execute the payout
+                itxn.Payment(
+                    amount=clause_struct.payout_amount.native,
+                    receiver=recipient,
+                    fee=0,
+                ).submit()
+                
+                # Mark the clause as executed
+                clause_struct.executed = arc4.Bool(True)
+                self.conditional_clauses[clause_id] = clause_struct.copy()
+                executed_count = arc4.UInt64(executed_count.native + 1)
+        
+        return executed_count
+    
     @abimethod(readonly=True)
     def get_event_info(
         self,
@@ -417,12 +504,11 @@ class ResponsiveDonation(ARC4Contract):
             event_id: The event to get clauses for
             
         Returns:
-            Array of clause IDs that depend on this event (empty for now - placeholder)
+            Array of clause IDs that depend on this event
         """
-        # Note: In a production system, you'd maintain an index of event->clauses
-        # This is a simplified interface for demonstration
-        clause_ids = arc4.DynamicArray[arc4.UInt64]()
-        
-        # This would require efficient indexing in a real implementation
-        # For now, this shows the intended interface
-        return clause_ids
+        # Return indexed clauses for this event
+        if event_id in self.event_clauses:
+            return self.event_clauses[event_id].copy()
+        else:
+            # No clauses for this event
+            return arc4.DynamicArray[arc4.UInt64]()

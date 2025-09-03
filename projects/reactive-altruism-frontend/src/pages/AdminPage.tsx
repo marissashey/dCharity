@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { CogIcon, PlusIcon, ClipboardDocumentListIcon, ChartBarIcon } from '@heroicons/react/24/outline'
 import CreateEventForm from '../components/CreateEventForm'
 import EventsGrid from '../components/EventsGrid'
+import RecentEventsList from '../components/RecentEventsList'
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<'create' | 'manage' | 'analytics'>('create')
@@ -14,7 +15,7 @@ export default function AdminPage() {
           <p className="text-gray-600 max-w-lg mx-auto">
             Manage events and monitor platform activity
           </p>
-          
+
           <div className="grid grid-cols-3 gap-6 mt-8 text-center">
             <div>
               <div className="text-2xl font-bold text-gray-900">12</div>
@@ -106,19 +107,10 @@ export default function AdminPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="card p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-                  <div className="space-y-3">
-                    <div className="text-sm">
-                      <p className="font-medium text-gray-900">New event created</p>
-                      <p className="text-gray-600">Climate Action Fund - 2 hours ago</p>
-                    </div>
-                    <div className="text-sm">
-                      <p className="font-medium text-gray-900">Event resolved</p>
-                      <p className="text-gray-600">Hurricane Relief - 5 hours ago</p>
-                    </div>
-                  </div>
+                  <RecentEventsList />
                 </div>
               </div>
             </div>
