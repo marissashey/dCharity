@@ -93,7 +93,7 @@ export default function ImpactSection() {
               </div>
               <div>
                 <p className="text-slate-600">Verification Time</p>
-                <p className="font-mono font-semibold">< 5 minutes</p>
+                <p className="font-mono font-semibold">&lt; 5 minutes</p>
               </div>
               <div>
                 <p className="text-slate-600">Oracle Accuracy</p>
