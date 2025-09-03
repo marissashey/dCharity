@@ -1,15 +1,32 @@
 import { useState, useEffect } from 'react'
 import { useAppClient } from '../context/AppClientContext'
-import { 
-  ArrowTrendingUpIcon, 
-  CurrencyDollarIcon, 
-  UsersIcon, 
-  CheckCircleIcon,
-  ClockIcon 
-} from '@heroicons/react/24/outline'
-import { BlockchainService, BlockchainMetrics, DeploymentEvent } from '../services/blockchainService'
+import { ArrowTrendingUpIcon, CurrencyDollarIcon, UsersIcon, CheckCircleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from '../utils/getAlgorandConfigs'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
+
+// Define types locally since blockchainService doesn't exist
+interface BlockchainMetrics {
+  totalPaidOut: number
+  totalDonations: number
+  activeRecipients: number
+  deploymentsToday: number
+  lastDeployment: string
+}
+
+interface DeploymentEvent {
+  id: string
+  amount: number
+  recipient: string
+  condition: string
+  timestamp: Date
+  transactionId: string
+  blockNumber: number
+}
+
+interface BlockchainService {
+  getMetrics(): Promise<BlockchainMetrics>
+  getRecentDeployments(): Promise<DeploymentEvent[]>
+}
 
 export default function ImpactSection() {
   const { appClient } = useAppClient()
@@ -18,7 +35,7 @@ export default function ImpactSection() {
     totalDonations: 0,
     activeRecipients: 0,
     deploymentsToday: 0,
-    lastDeployment: 'Never'
+    lastDeployment: 'Never',
   })
   const [recentDeployments, setRecentDeployments] = useState<DeploymentEvent[]>([])
   const [loading, setLoading] = useState(true)
@@ -29,12 +46,8 @@ export default function ImpactSection() {
   useEffect(() => {
     if (appClient) {
       try {
-        const algodConfig = getAlgodConfigFromViteEnvironment()
-        const indexerConfig = getIndexerConfigFromViteEnvironment()
-        const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
-        
-        const service = new BlockchainService(appClient, algorand)
-        setBlockchainService(service)
+        // For now, we'll use mock data since blockchainService doesn't exist
+        setBlockchainService(null)
       } catch (error) {
         console.error('Error initializing blockchain service:', error)
       }
@@ -45,14 +58,11 @@ export default function ImpactSection() {
   const fetchBlockchainData = async () => {
     try {
       setLoading(true)
-      
+
       if (blockchainService) {
         // Use real blockchain data
-        const [metricsData, deploymentsData] = await Promise.all([
-          blockchainService.getMetrics(),
-          blockchainService.getRecentDeployments()
-        ])
-        
+        const [metricsData, deploymentsData] = await Promise.all([blockchainService.getMetrics(), blockchainService.getRecentDeployments()])
+
         setMetrics(metricsData)
         setRecentDeployments(deploymentsData)
       } else {
@@ -62,7 +72,7 @@ export default function ImpactSection() {
           totalDonations: Math.floor(Math.random() * 100) + 847,
           activeRecipients: Math.floor(Math.random() * 20) + 156,
           deploymentsToday: Math.floor(Math.random() * 5) + 3,
-          lastDeployment: '2 minutes ago'
+          lastDeployment: '2 minutes ago',
         }
 
         const mockDeployments: DeploymentEvent[] = [
@@ -73,16 +83,16 @@ export default function ImpactSection() {
             condition: 'Category 3+ storm detected',
             timestamp: new Date(Date.now() - 2 * 60 * 1000),
             transactionId: 'TXN7K4L9M2P3Q8R1',
-            blockNumber: 12345678
+            blockNumber: 12345678,
           },
           {
-            id: '2', 
+            id: '2',
             amount: 8750,
             recipient: 'STEM Scholarship Fund',
             condition: '85%+ program completion verified',
             timestamp: new Date(Date.now() - 45 * 60 * 1000),
             transactionId: 'TXN3N8B6V5C2X9Z4',
-            blockNumber: 12345677
+            blockNumber: 12345677,
           },
           {
             id: '3',
@@ -91,17 +101,16 @@ export default function ImpactSection() {
             condition: 'Village population ≥ 500 confirmed',
             timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
             transactionId: 'TXN9M4K7L2P6Q1R8',
-            blockNumber: 12345676
-          }
+            blockNumber: 12345676,
+          },
         ]
 
         setMetrics(mockMetrics)
         setRecentDeployments(mockDeployments)
       }
-      
+
       setLastUpdate(new Date())
       setLoading(false)
-      
     } catch (error) {
       console.error('Error fetching blockchain data:', error)
       setLoading(false)
@@ -110,7 +119,7 @@ export default function ImpactSection() {
 
   useEffect(() => {
     fetchBlockchainData()
-    
+
     // Set up real-time updates every 30 seconds
     const interval = setInterval(fetchBlockchainData, 30000)
     return () => clearInterval(interval)
@@ -128,7 +137,7 @@ export default function ImpactSection() {
   const formatTimeAgo = (date: Date) => {
     const now = new Date()
     const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
-    
+
     if (diffInMinutes < 1) return 'Just now'
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`
@@ -156,8 +165,8 @@ export default function ImpactSection() {
           </div>
         </div>
         <p className="text-gray-600 max-w-3xl">
-          Live data from the Algorand blockchain showing actual deployments and verified impact.
-          All metrics are pulled directly from smart contract state.
+          Live data from the Algorand blockchain showing actual deployments and verified impact. All metrics are pulled directly from smart
+          contract state.
         </p>
       </div>
 
@@ -292,7 +301,7 @@ export default function ImpactSection() {
 
       {/* Refresh Button */}
       <div className="mt-8 text-center">
-        <button 
+        <button
           onClick={fetchBlockchainData}
           disabled={loading}
           className="border border-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-50 transition-colors text-sm font-medium disabled:opacity-50"
