@@ -1,10 +1,23 @@
 import { SupportedWallet, WalletId, WalletManager, WalletProvider } from '@txnlab/use-wallet-react'
 import { SnackbarProvider } from 'notistack'
+import { useState } from 'react'
+import { useWallet } from '@txnlab/use-wallet-react'
+import LandingPage from './pages/LandingPage'
 import Home from './Home'
 import EventDetailPage from './pages/EventDetailPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/getAlgorandConfigs'
 import { AppClientProvider } from './context/AppClientContext'
+
+function AppContent() {
+  const { activeAddress } = useWallet()
+  
+  if (!activeAddress) {
+    return <LandingPage />
+  }
+  
+  return <Home />
+}
 
 let supportedWallets: SupportedWallet[]
 
@@ -57,7 +70,7 @@ export default function App() {
         <AppClientProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<AppContent />} />
               <Route path="/event/:eventId" element={<EventDetailPage />} />
             </Routes>
           </BrowserRouter>
