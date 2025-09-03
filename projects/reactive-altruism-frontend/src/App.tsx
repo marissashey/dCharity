@@ -11,11 +11,11 @@ import { AppClientProvider } from './context/AppClientContext'
 
 function AppContent() {
   const { activeAddress } = useWallet()
-  
+
   if (!activeAddress) {
     return <LandingPage />
   }
-  
+
   return <Home />
 }
 
@@ -70,7 +70,8 @@ export default function App() {
         <AppClientProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<AppContent />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/event/:eventId" element={<EventDetailPage />} />
             </Routes>
           </BrowserRouter>

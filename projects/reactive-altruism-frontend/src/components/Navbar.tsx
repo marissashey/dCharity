@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import ConnectWallet from './ConnectWallet'
 import { useWallet } from '@txnlab/use-wallet-react'
 import { WalletIcon, HeartIcon } from '@heroicons/react/24/outline'
@@ -17,12 +18,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
     <nav className="w-full border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <div className="flex items-center space-x-3">
+        <Link to="/" className="flex items-center space-x-3 focus:outline-none">
           <div className="w-8 h-8 bg-gray-900 flex items-center justify-center">
             <HeartIcon className="h-4 w-4 text-white" />
           </div>
           <h1 className="text-lg font-semibold text-gray-900">Responsive Donations</h1>
-        </div>
+        </Link>
 
         {/* Navigation */}
         {activeAddress && (
@@ -58,16 +59,16 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               </span>
             </div>
           )}
-          <button 
-            className="btn-primary flex items-center gap-2" 
-            onClick={toggleWalletModal} 
+          <button
+            className="btn-primary flex items-center gap-2"
+            onClick={toggleWalletModal}
             data-test-id="connect-wallet-navbar"
           >
             <WalletIcon className="h-4 w-4" />
             {activeAddress ? 'Wallet' : 'Connect'}
           </button>
         </div>
-        
+
         <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
       </div>
 
@@ -78,8 +79,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             <button
               onClick={() => onPageChange('donations')}
               className={`text-sm font-medium transition-colors ${
-                currentPage === 'donations' 
-                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1' 
+                currentPage === 'donations'
+                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -88,8 +89,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             <button
               onClick={() => onPageChange('admin')}
               className={`text-sm font-medium transition-colors ${
-                currentPage === 'admin' 
-                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1' 
+                currentPage === 'admin'
+                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -98,8 +99,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             <button
               onClick={() => onPageChange('oracle')}
               className={`text-sm font-medium transition-colors ${
-                currentPage === 'oracle' 
-                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1' 
+                currentPage === 'oracle'
+                  ? 'text-gray-900 border-b-2 border-gray-900 pb-1'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >

@@ -1,5 +1,6 @@
 import { useWallet, Wallet, WalletAccount, WalletId } from '@txnlab/use-wallet-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Account from './Account'
 
 interface ConnectWalletInterface {
@@ -10,6 +11,7 @@ interface ConnectWalletInterface {
 const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   const { wallets, activeAddress, activeWalletAccounts } = useWallet()
   const [showAddressSelector, setShowAddressSelector] = useState(false)
+  const navigate = useNavigate()
 
   const isKmd = (wallet: Wallet) => wallet.id === WalletId.KMD
 
@@ -113,14 +115,12 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
                   if (activeWallet) {
                     await activeWallet.disconnect()
                   } else {
-                    // Required for logout/cleanup of inactive providers
-                    // For instance, when you login to localnet wallet and switch network
-                    // to testnet/mainnet or vice verse.
                     localStorage.removeItem('@txnlab/use-wallet:v3')
                     window.location.reload()
                   }
                 }
                 setShowAddressSelector(false)
+                navigate('/')
               }}
             >
               Logout
