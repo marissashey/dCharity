@@ -13,12 +13,11 @@ This starter full stack project has been generated using AlgoKit. See below for 
 6. Deploy the contracts locally by running `algokit project deploy localnet` in the same directory.
 7. Start the frontend server by running `npm run dev` inside `/projects/dCharity-frontend`.
 
-> This project is structured as a monorepo, refer to the [documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/run.md) to learn more about custom command orchestration via `algokit project run`.
 
 ### Subsequently
 
 1. If you update to the latest source code and there are new dependencies, you will need to run `algokit project bootstrap all` again.
-2. Follow step 3 above.
+2. Follow steps 5 to 7 from above.
 
 ## Tools
 
