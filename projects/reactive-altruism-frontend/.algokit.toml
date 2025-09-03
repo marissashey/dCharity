@@ -3,7 +3,7 @@ min_version = "v2.0.0"
 
 [project]
 type = "frontend"
-name = 'fractional-realestate-ts-frontend'
+name = 'reactive-altruism-frontend'
 artifacts = "src/contracts"
 
 [project.run]

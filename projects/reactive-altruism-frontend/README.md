@@ -12,7 +12,7 @@ A beautiful React frontend for the Responsive Donations smart contract - enablin
 ## 🚀 Quick Start
 
 ```bash
-cd projects/fractional-realestate-py-frontend
+cd projects/reactive-altruism-frontend
 npm install
 npm run generate:app-clients
 npm run dev
