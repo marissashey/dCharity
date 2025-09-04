@@ -17,6 +17,7 @@ export default function ConditionalDonationForm() {
   const [recipientYes, setRecipientYes] = useState('')
   const [recipientNo, setRecipientNo] = useState('')
   const [donationAmount, setDonationAmount] = useState('')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   // Auto-fill recipientNo with user's address when component mounts or activeAddress changes
   React.useEffect(() => {
@@ -34,6 +35,29 @@ export default function ConditionalDonationForm() {
 
   // Filter to get only pending events
   const pendingEvents = events.filter(([, event]) => event.pending)
+
+  // Get selected event details for display
+  const selectedEvent = pendingEvents.find(([id]) => id.toString() === eventId)
+
+  const handleEventSelect = (selectedEventId: string) => {
+    setEventId(selectedEventId)
+    setIsDropdownOpen(false)
+  }
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      if (!target.closest('.event-dropdown')) {
+        setIsDropdownOpen(false)
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isDropdownOpen])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -97,19 +121,41 @@ export default function ConditionalDonationForm() {
               No pending events available. Create an event in the Oracle tab first.
             </div>
           ) : (
-            <select
-              value={eventId}
-              onChange={(e) => setEventId(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 focus:border-gray-900 focus:outline-none"
-              required
-            >
-              <option value="">Select an event...</option>
-              {pendingEvents.map(([id, event]) => (
-                <option key={id.toString()} value={id.toString()}>
-                  ID: {id.toString()} | {event.eventString.slice(0, 50)}{event.eventString.length > 50 ? '...' : ''} | Oracle: {ellipseAddress(event.oracleAddress)}
-                </option>
-              ))}
-            </select>
+            <div className="relative event-dropdown">
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full px-3 py-2 border border-gray-300 focus:border-gray-900 focus:outline-none text-left bg-white flex items-center justify-between"
+              >
+                {selectedEvent ? (
+                  <div>
+                    <div className="text-gray-900">{selectedEvent[1].eventString}</div>
+                    <div className="text-sm text-gray-500 opacity-75">Oracle: {ellipseAddress(selectedEvent[1].oracleAddress)}</div>
+                  </div>
+                ) : (
+                  <span className="text-gray-500">Select an event...</span>
+                )}
+                <svg className={`w-5 h-5 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                  {pendingEvents.map(([id, event]) => (
+                    <button
+                      key={id.toString()}
+                      type="button"
+                      onClick={() => handleEventSelect(id.toString())}
+                      className="w-full px-3 py-3 text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none border-b border-gray-100 last:border-b-0"
+                    >
+                      <div className="text-gray-900">{event.eventString}</div>
+                      <div className="text-sm text-gray-500 opacity-75 mt-1">Oracle: {ellipseAddress(event.oracleAddress)}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
           <p className="text-xs text-gray-500 mt-1">
             Select from available pending events

@@ -4,7 +4,7 @@ import CreateEventForm from '../components/CreateEventForm'
 import EventsGrid from '../components/EventsGrid'
 
 export default function OraclePage() {
-  const [activeTab, setActiveTab] = useState<'events' | 'create' | 'manage'>('events')
+  const [activeTab, setActiveTab] = useState<'events' | 'create'>('events')
 
   return (
     <div className="min-h-screen bg-white">
@@ -12,7 +12,7 @@ export default function OraclePage() {
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-3">Oracle & Events</h1>
           <p className="text-gray-600 max-w-lg mx-auto">
-            Create and manage events for conditional donations
+            Browse and create events for conditional donations
           </p>
         </div>
 
@@ -27,6 +27,7 @@ export default function OraclePage() {
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
+              <ClipboardDocumentListIcon className="h-4 w-4" />
               <span>Browse Events</span>
             </button>
             <button
@@ -40,17 +41,6 @@ export default function OraclePage() {
               <PlusIcon className="h-4 w-4" />
               <span>Create Event</span>
             </button>
-            <button
-              onClick={() => setActiveTab('manage')}
-              className={`flex items-center space-x-2 px-6 py-2 text-sm font-medium transition-colors rounded-md ${
-                activeTab === 'manage'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <ClipboardDocumentListIcon className="h-4 w-4" />
-              <span>Manage</span>
-            </button>
           </div>
         </div>
 
@@ -63,10 +53,6 @@ export default function OraclePage() {
           <div className="max-w-2xl mx-auto">
             <CreateEventForm />
           </div>
-        )}
-
-        {activeTab === 'manage' && (
-          <EventsGrid />
         )}
 
         {/* Info Section */}
