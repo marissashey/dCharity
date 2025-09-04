@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.png" alt="dCharity Logo" width="200"/>
+  <img src="./assets/dCharity.png" alt="dCharity Logo" width="200"/>
 </p>
 
 <p align="center">
@@ -24,16 +24,18 @@
 
 ---
 
-## 🛠️ Technical Architecture
+## Technical Architecture
 
 ### 1. **Smart Contracts (`/projects/dCharity-contracts`)**
+
 - **Language:** Python (with PyTeal for Algorand smart contracts)
-- **Contracts:** 
+- **Contracts:**
   - **Donation Escrow:** Holds donor funds until event conditions are met.
   - **Event Oracle Integration:** Connects to off-chain oracles to verify real-world events.
   - **Release Logic:** Ensures atomicity and transparency in fund release or refund.
 
 ### 2. **Frontend (`/projects/dCharity-frontend`)**
+
 - **Framework:** React
 - **Features:**
   - **Wallet Integration:** Connect your Algorand wallet to donate or track events.
@@ -41,6 +43,7 @@
   - **Interactive UI:** Powered by Tailwind CSS and daisyUI for a modern look.
 
 ### 3. **DevOps & Tooling**
+
 - **Localnet:** Simulate the Algorand network with `algokit localnet start`.
 - **Testing:** Python (pytest), JavaScript (jest, playwright).
 - **Code Quality:** Poetry, Black, Ruff, Flake8, mypy, Prettier, ESLint.
@@ -87,6 +90,7 @@
 ## Explore the Blockchain
 
 See the blockchain live:
+
 ```
 algokit explore
 ```
@@ -107,7 +111,7 @@ Pull requests, issues, and suggestions are welcome! Help us build more transpare
 
 ---
 
-## 📄 License
+## License
 
 See [LICENSE](./LICENSE) for details.
 
