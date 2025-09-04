@@ -3,17 +3,37 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { useSnackbar } from 'notistack'
 import { useAppClient } from '../context/AppClientContext'
 import { useConditionalDonation } from '../hooks/useConditionalDonation'
+import { useEvents } from '../hooks/useEvents'
+import { ellipseAddress } from '../utils/ellipseAddress'
 
 export default function ConditionalDonationForm() {
   const { activeAddress } = useWallet()
   const { enqueueSnackbar } = useSnackbar()
   const { appClient } = useAppClient()
   const { createConditionalDonation, loading: donationLoading, error, success } = useConditionalDonation(appClient, activeAddress)
+  const { events, fetchEvents, loading: eventsLoading } = useEvents(appClient, activeAddress)
   
   const [eventId, setEventId] = useState('')
   const [recipientYes, setRecipientYes] = useState('')
   const [recipientNo, setRecipientNo] = useState('')
   const [donationAmount, setDonationAmount] = useState('')
+
+  // Auto-fill recipientNo with user's address when component mounts or activeAddress changes
+  React.useEffect(() => {
+    if (activeAddress && !recipientNo) {
+      setRecipientNo(activeAddress)
+    }
+  }, [activeAddress, recipientNo])
+
+  // Fetch events when component mounts or appClient changes
+  React.useEffect(() => {
+    if (appClient) {
+      fetchEvents()
+    }
+  }, [appClient, fetchEvents])
+
+  // Filter to get only pending events
+  const pendingEvents = events.filter(([, event]) => event.pending)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,10 +54,10 @@ export default function ConditionalDonationForm() {
   React.useEffect(() => {
     if (success) {
       enqueueSnackbar(success, { variant: 'success' })
-      // Clear form on success
+      // Clear form on success but keep user address in recipientNo
       setEventId('')
       setRecipientYes('')
-      setRecipientNo('')
+      setRecipientNo(activeAddress || '')
       setDonationAmount('')
     }
   }, [success, enqueueSnackbar])
@@ -66,18 +86,33 @@ export default function ConditionalDonationForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-900 mb-2">
-            Event ID
+            Event
           </label>
-          <input
-            type="text"
-            value={eventId}
-            onChange={(e) => setEventId(e.target.value)}
-            placeholder="Enter event ID"
-            className="w-full px-3 py-2 border border-gray-300 focus:border-gray-900 focus:outline-none"
-            required
-          />
+          {eventsLoading ? (
+            <div className="w-full px-3 py-2 border border-gray-300 bg-gray-50 text-gray-500">
+              Loading events...
+            </div>
+          ) : pendingEvents.length === 0 ? (
+            <div className="w-full px-3 py-2 border border-gray-300 bg-gray-50 text-gray-500">
+              No pending events available. Create an event in the Oracle tab first.
+            </div>
+          ) : (
+            <select
+              value={eventId}
+              onChange={(e) => setEventId(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 focus:border-gray-900 focus:outline-none"
+              required
+            >
+              <option value="">Select an event...</option>
+              {pendingEvents.map(([id, event]) => (
+                <option key={id.toString()} value={id.toString()}>
+                  ID: {id.toString()} | {event.eventString.slice(0, 50)}{event.eventString.length > 50 ? '...' : ''} | Oracle: {ellipseAddress(event.oracleAddress)}
+                </option>
+              ))}
+            </select>
+          )}
           <p className="text-xs text-gray-500 mt-1">
-            Find available events in the Oracle tab
+            Select from available pending events
           </p>
         </div>
 
@@ -122,7 +157,7 @@ export default function ConditionalDonationForm() {
               value={recipientNo}
               onChange={(e) => setRecipientNo(e.target.value)}
               onFocus={handleRecipientNoFocus}
-              placeholder="Your address (auto-filled)"
+              placeholder={activeAddress ? "Your address (auto-filled)" : "Enter address"}
               className="w-full px-3 py-2 border border-gray-300 focus:border-gray-900 focus:outline-none"
               required
             />
@@ -132,7 +167,7 @@ export default function ConditionalDonationForm() {
 
         <div className="bg-gray-50 border border-gray-200 p-4">
           <p className="text-sm text-gray-700">
-            <strong>Example:</strong> Donate $100 to Red Cross if hurricane hits Miami by Dec 31, otherwise return to me
+            <strong>Example:</strong> Select "Hurricane hits Miami" event, enter Red Cross address for "if occurs", and your funds will be sent there if the oracle confirms the hurricane happened, otherwise returned to you.
           </p>
         </div>
 

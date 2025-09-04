@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { CpuChipIcon } from '@heroicons/react/24/outline'
+import { CpuChipIcon, PlusIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline'
 import CreateEventForm from '../components/CreateEventForm'
 import EventsGrid from '../components/EventsGrid'
 
 export default function OraclePage() {
-  const [activeTab, setActiveTab] = useState<'events' | 'create'>('events')
+  const [activeTab, setActiveTab] = useState<'events' | 'create' | 'manage'>('events')
 
   return (
     <div className="min-h-screen bg-white">
@@ -21,34 +21,52 @@ export default function OraclePage() {
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             <button
               onClick={() => setActiveTab('events')}
-              className={`px-6 py-2 text-sm font-medium transition-colors rounded-md ${
+              className={`flex items-center space-x-2 px-6 py-2 text-sm font-medium transition-colors rounded-md ${
                 activeTab === 'events'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Browse Events
+              <span>Browse Events</span>
             </button>
             <button
               onClick={() => setActiveTab('create')}
-              className={`px-6 py-2 text-sm font-medium transition-colors rounded-md ${
+              className={`flex items-center space-x-2 px-6 py-2 text-sm font-medium transition-colors rounded-md ${
                 activeTab === 'create'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Create Event
+              <PlusIcon className="h-4 w-4" />
+              <span>Create Event</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('manage')}
+              className={`flex items-center space-x-2 px-6 py-2 text-sm font-medium transition-colors rounded-md ${
+                activeTab === 'manage'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <ClipboardDocumentListIcon className="h-4 w-4" />
+              <span>Manage</span>
             </button>
           </div>
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'events' ? (
+        {activeTab === 'events' && (
           <EventsGrid />
-        ) : (
+        )}
+        
+        {activeTab === 'create' && (
           <div className="max-w-2xl mx-auto">
             <CreateEventForm />
           </div>
+        )}
+
+        {activeTab === 'manage' && (
+          <EventsGrid />
         )}
 
         {/* Info Section */}

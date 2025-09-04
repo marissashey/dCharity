@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { HeartIcon, GiftIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { GiftIcon, ClockIcon } from '@heroicons/react/24/outline'
 import InstantDonationForm from '../components/InstantDonationForm'
 import ConditionalDonationForm from '../components/ConditionalDonationForm'
-import DonationHistory from '../components/DonationHistory'
 
 export default function DonationsPage() {
-  const [activeSection, setActiveSection] = useState<'instant' | 'conditional' | 'history'>('instant')
+  const [activeSection, setActiveSection] = useState<'instant' | 'conditional'>('instant')
 
   return (
     <div className="min-h-screen bg-white">
@@ -45,17 +44,6 @@ export default function DonationsPage() {
                 <ClockIcon className="h-4 w-4" />
                 <span>Conditional</span>
               </button>
-              <button
-                onClick={() => setActiveSection('history')}
-                className={`flex items-center space-x-2 pb-3 border-b-2 font-medium transition-colors ${
-                  activeSection === 'history'
-                    ? 'border-gray-900 text-gray-900'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <HeartIcon className="h-4 w-4" />
-                <span>History</span>
-              </button>
             </div>
           </div>
         </div>
@@ -74,11 +62,6 @@ export default function DonationsPage() {
             </div>
           )}
 
-          {activeSection === 'history' && (
-            <div>
-              <DonationHistory />
-            </div>
-          )}
         </div>
       </div>
     </div>

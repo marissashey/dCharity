@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import DonationsPage from './pages/DonationsPage'
-import AdminPage from './pages/AdminPage'
+import AnalyticsPage from './pages/AnalyticsPage'
 import OraclePage from './pages/OraclePage'
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState<'donations' | 'admin' | 'oracle'>('donations')
+  const [currentPage, setCurrentPage] = useState<'donations' | 'analytics' | 'oracle'>('donations')
 
   return (
     <div className="min-h-screen bg-white">
@@ -15,7 +15,7 @@ export default function Home() {
       />
       
       {currentPage === 'donations' && <DonationsPage />}
-      {currentPage === 'admin' && <AdminPage />}
+      {currentPage === 'analytics' && <AnalyticsPage />}
       {currentPage === 'oracle' && <OraclePage />}
     </div>
   )

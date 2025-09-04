@@ -46,10 +46,10 @@ export default function InstantDonationForm() {
   }, [error, enqueueSnackbar])
 
   const presetAmounts = [
-    { label: '$10', algos: 10 },
-    { label: '$25', algos: 25 },
-    { label: '$50', algos: 50 },
-    { label: '$100', algos: 100 },
+    { label: '10', algos: 10 },
+    { label: '25', algos: 25 },
+    { label: '50', algos: 50 },
+    { label: '100', algos: 100 },
   ]
 
   return (

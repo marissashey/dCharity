@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { CogIcon, PlusIcon, ClipboardDocumentListIcon, ChartBarIcon } from '@heroicons/react/24/outline'
-import CreateEventForm from '../components/CreateEventForm'
-import EventsGrid from '../components/EventsGrid'
+import { ChartBarIcon, HeartIcon } from '@heroicons/react/24/outline'
+import DonationHistory from '../components/DonationHistory'
 import RecentEventsList from '../components/RecentEventsList'
 
-export default function AdminPage() {
-  const [activeSection, setActiveSection] = useState<'create' | 'manage' | 'analytics'>('create')
+export default function AnalyticsPage() {
+  const [activeSection, setActiveSection] = useState<'history' | 'analytics'>('history')
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">Administration</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Analytics & History</h1>
           <p className="text-gray-600 max-w-lg mx-auto">
-            Manage events and monitor platform activity
+            View your donation history and platform analytics
           </p>
 
           <div className="grid grid-cols-3 gap-6 mt-8 text-center">
@@ -37,26 +36,15 @@ export default function AdminPage() {
           <div className="border-b border-gray-200">
             <div className="flex space-x-8">
               <button
-                onClick={() => setActiveSection('create')}
+                onClick={() => setActiveSection('history')}
                 className={`flex items-center space-x-2 pb-3 border-b-2 font-medium transition-colors ${
-                  activeSection === 'create'
+                  activeSection === 'history'
                     ? 'border-gray-900 text-gray-900'
                     : 'border-transparent text-gray-600 hover:text-gray-900'
                 }`}
               >
-                <PlusIcon className="h-4 w-4" />
-                <span>Create</span>
-              </button>
-              <button
-                onClick={() => setActiveSection('manage')}
-                className={`flex items-center space-x-2 pb-3 border-b-2 font-medium transition-colors ${
-                  activeSection === 'manage'
-                    ? 'border-gray-900 text-gray-900'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <ClipboardDocumentListIcon className="h-4 w-4" />
-                <span>Manage</span>
+                <HeartIcon className="h-4 w-4" />
+                <span>Donation History</span>
               </button>
               <button
                 onClick={() => setActiveSection('analytics')}
@@ -75,15 +63,9 @@ export default function AdminPage() {
 
         {/* Content Sections */}
         <div>
-          {activeSection === 'create' && (
+          {activeSection === 'history' && (
             <div>
-              <CreateEventForm />
-            </div>
-          )}
-
-          {activeSection === 'manage' && (
-            <div>
-              <EventsGrid />
+              <DonationHistory />
             </div>
           )}
 

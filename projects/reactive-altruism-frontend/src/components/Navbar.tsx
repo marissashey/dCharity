@@ -5,8 +5,8 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { WalletIcon, HeartIcon } from '@heroicons/react/24/outline'
 
 interface NavbarProps {
-  currentPage: 'donations' | 'admin' | 'oracle'
-  onPageChange: (page: 'donations' | 'admin' | 'oracle') => void
+  currentPage: 'donations' | 'analytics' | 'oracle'
+  onPageChange: (page: 'donations' | 'analytics' | 'oracle') => void
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
@@ -35,10 +35,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               Donations
             </button>
             <button
-              onClick={() => onPageChange('admin')}
-              className={currentPage === 'admin' ? 'nav-link-active border-b-2 border-gray-900 pb-1' : 'nav-link'}
+              onClick={() => onPageChange('analytics')}
+              className={currentPage === 'analytics' ? 'nav-link-active border-b-2 border-gray-900 pb-1' : 'nav-link'}
             >
-              Admin
+              Analytics
             </button>
             <button
               onClick={() => onPageChange('oracle')}
@@ -87,14 +87,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               Donations
             </button>
             <button
-              onClick={() => onPageChange('admin')}
+              onClick={() => onPageChange('analytics')}
               className={`text-sm font-medium transition-colors ${
-                currentPage === 'admin'
+                currentPage === 'analytics'
                   ? 'text-gray-900 border-b-2 border-gray-900 pb-1'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Admin
+              Analytics
             </button>
             <button
               onClick={() => onPageChange('oracle')}

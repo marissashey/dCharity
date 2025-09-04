@@ -172,16 +172,9 @@ export default function EventsGrid() {
 
               {!event.pending && (
                 <div className="mt-4 pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600 mb-3">
-                    This event has been resolved. Conditional donations can be executed.
+                  <p className="text-sm text-gray-600">
+                    This event has been resolved. Conditional donations are executed automatically.
                   </p>
-                  <button
-                    onClick={() => executeClausesForEvent(eventId.toString())}
-                    className="w-full px-3 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded"
-                    disabled={loading || autoExecLoading}
-                  >
-                    {autoExecLoading ? 'Executing...' : 'Execute Conditional Donations'}
-                  </button>
                 </div>
               )}
             </div>
