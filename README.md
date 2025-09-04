@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/dCharity.png" alt="dCharity Logo" width="200"/>
+  <img src="./assets/dCharity.png" alt="dCharity Logo" width="500"/>
 </p>
 
 <p align="center">
@@ -55,23 +55,23 @@
 
 ### Initial Setup
 
-1. **Clone the repository**  
+1. **Clone the repository**
    `git clone https://github.com/marissashey/dCharity.git`
 2. **Install [Docker](https://www.docker.com/)** and set up [AlgoKit](https://github.com/algorandfoundation/algokit-cli#install).
-3. **Start local Algorand network:**  
+3. **Start local Algorand network:**
    `algokit localnet start`
-4. **Bootstrap the project:**  
+4. **Bootstrap the project:**
    `algokit project bootstrap all`
-5. **Build contracts:**  
+5. **Build contracts:**
    `algokit project run build` (inside `/projects/dCharity-contracts`)
-6. **Deploy contracts:**  
+6. **Deploy contracts:**
    `algokit project deploy localnet` (inside `/projects/dCharity-contracts`)
-7. **Start the frontend:**  
+7. **Start the frontend:**
    `npm run dev` (inside `/projects/dCharity-frontend`)
 
 ### Updating
 
-- If you pull new code with updated dependencies:  
+- If you pull new code with updated dependencies:
   `algokit project bootstrap all`
 - Rebuild, redeploy contracts, and restart the frontend as above.
 
